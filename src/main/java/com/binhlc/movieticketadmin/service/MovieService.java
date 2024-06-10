@@ -10,10 +10,10 @@ import com.binhlc.movieticketadmin.domain.repo.MovieRepo;
 import com.binhlc.movieticketadmin.domain.reponse.MovieResponse;
 import com.binhlc.movieticketadmin.domain.reponse.Result;
 import com.binhlc.movieticketadmin.domain.request.AddMovieRequest;
+import com.binhlc.movieticketadmin.domain.request.UpdateMovieRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class MovieService extends BaseService {
     @Autowired
     private MovieCategoryRepo movieCategoryRepo;
 
-    public int addMovie(MovieEntity movieEntity) {
+    public int saveMovie(MovieEntity movieEntity) {
         try{
             movieRepo.save(movieEntity);
             return  1;
@@ -35,6 +35,32 @@ public class MovieService extends BaseService {
             System.err.println("[Movie Service] Adding Error: " + e.getMessage());
             return 0;
         }
+    }
+
+    public Result updateMovie(Integer id, UpdateMovieRequest request){
+        Optional<MovieEntity> optional = movieRepo.findById(id);
+        if(optional.isPresent()){
+            MovieEntity movie = optional.get();
+            movie.setName(request.getName());
+            movie.setPartTime(request.getReleaseDate());
+            movie.setOld(request.getCensor());
+            movie.setActor(request.getCast());
+            movie.setDirector(request.getDirector());
+            movie.setCountry(request.getCountry());
+            movie.setLanguage(request.getLanguage());
+            movie.setTime(request.getDuration());
+            movie.setContain(request.getDescription());
+            movie.setTrailer(request.getTrailer());
+            movie.setImageUrl(request.getImageUrl());
+            movie.setUpdateBy(1);
+            movie.setTimeUpdate(currrentTime());
+            movie.setStatus(request.getStatus());
+            movie.setSubTitle(request.getSubTitles());
+            movie.setCreateBy(1);
+            movie.setDubbing(request.getDubbing());
+            return saveMovie(movie) == 1 ? Result.success() : Result.fail();
+        }
+        return Result.fail(ErrorType.MOVIE_NOT_FOUND);
     }
 
     public Result add(AddMovieRequest request){
@@ -60,7 +86,7 @@ public class MovieService extends BaseService {
         movie.setDubbing(request.getDubbing());
         movie.setUpdateBy(1);
         movie.setView(1);
-        return addMovie(movie) == 1 ? Result.success() : Result.fail();
+        return saveMovie(movie) == 1 ? Result.success() : Result.fail();
     }
 
     public Result getTopMovie(){

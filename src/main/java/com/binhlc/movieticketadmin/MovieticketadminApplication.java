@@ -47,7 +47,7 @@ public class MovieticketadminApplication {
 public OpenAPI customOpenAPI() {
 	return new OpenAPI()
 			.info(new Info()
-					.title("Movie Ticket Admin API")
+					.title("Movie Ticket WEB API")
 					.version("1.0"));
 }
 
