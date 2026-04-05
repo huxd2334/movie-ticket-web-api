@@ -188,7 +188,7 @@ public class TicketService extends BaseService {
                 tranEntity.get().setType(2);
                 UserEntity userEntity = userService.findByUserId(id);
                 userEntity.setBalance(userEntity.getBalance()+tong);
-                int point = tong/1000;
+                int point = 100;
                 userEntity.setPoint(userEntity.getPoint()+point);
                 ticketRepo.saveAll(mListTicket);
                 transactionRepo.save(tranEntity.get());

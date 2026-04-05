@@ -60,3 +60,6 @@ public OpenAPI customOpenAPI() {
 				.build();
 	}
 }
+
+// http://192.168.146.38:8080/swagger-ui/index.html
+

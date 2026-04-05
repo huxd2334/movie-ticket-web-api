@@ -143,7 +143,7 @@ public class MovieEntity {
         this.imageUrl = imageUrl;
     }
 
-    @Column(name = "actor")
+    @Column(name = "actor", columnDefinition = "TEXT")
     public String getActor() {
         return actor;
     }
